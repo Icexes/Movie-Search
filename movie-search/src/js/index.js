@@ -40,7 +40,26 @@ createMainContent();
 const swiper = new Swiper ('.swiper-container', {
     // Optional parameters
     slidesPerView: 4,
-    spaceBetween: 40,
+    spaceBetween: 20,
+    breakpoints: {
+        50: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
+        640: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        1100: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+        },
+        1300 : {
+            slidesPerView: 4,
+            spaceBetween: 20,
+        }
+    },
+    
     // If we need pagination
     pagination: {
       el: '.swiper-pagination',
@@ -119,6 +138,7 @@ const searchFormSubmitBtn = document.querySelector('.search-form__submit');
 searchFormSubmitBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     request = textInput.value;
+    swiper.removeAllSlides();
     getMovies();
 });
 

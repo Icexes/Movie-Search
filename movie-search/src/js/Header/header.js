@@ -2,6 +2,7 @@
 export default function createHeader() {
 
     const header = document.createElement('header');
+    header.classList.add('header');
     const wrapper = document.createElement('div');
     wrapper.classList.add('wrapper');
     const headerWrap = document.createElement('div');

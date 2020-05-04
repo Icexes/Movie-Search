@@ -27,7 +27,9 @@ export default function createSlider() {
 //      <!-- If we need scrollbar -->
 //      <!-- <div class="swiper-scrollbar"></div> -->
 //  </div> 
-
+    const swiper = document.createElement('div');
+    swiper.classList.add('swiper');
+    
     const swiperContainer = document.createElement('div');
     swiperContainer.classList.add('swiper-container');
     const swiperWrapper = document.createElement('div');
@@ -41,8 +43,8 @@ export default function createSlider() {
 
     
     
-    swiperContainer.append(swiperWrapper, swiperBtnPrev, swiperBtnNext,scrollbar);
-
-    return swiperContainer;
+    swiperContainer.append(swiperWrapper ,scrollbar);
+    swiper.append(swiperContainer,swiperBtnPrev, swiperBtnNext);
+    return swiper;
 
 }
