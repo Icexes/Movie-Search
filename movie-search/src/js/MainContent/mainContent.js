@@ -45,10 +45,12 @@ export default function createMainContent() {
     searchForm.append(searchFormWrapper);
 
     
-    const slider = createSlider(4);
+    const slider = createSlider();
 
+    const logWindow = document.createElement('div');
+    logWindow.classList.add('log-window');
 
-    wrapper.append(searchForm, slider);
+    wrapper.append(searchForm, logWindow, slider);
     main.append(wrapper);
     document.body.append(main);
     createKeyBoard();
