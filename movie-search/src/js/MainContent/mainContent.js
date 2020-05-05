@@ -19,6 +19,7 @@ export default function createMainContent() {
     searchFormWrapper.classList.add('search-form__wrapper');
 
     const inputRow = document.createElement('input');
+    inputRow.autocomplete = 'off';
     inputRow.classList.add('search-form__input-row');
     inputRow.placeholder = 'Search here...';
     inputRow.type='text';
