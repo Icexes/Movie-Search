@@ -8,6 +8,7 @@ export default function createMainContent() {
 //     <button type="submit">Поиск</button>
 //   </form>
     const main = document.createElement('main');
+    main.classList.add('main');
     const wrapper = document.createElement('div');
     wrapper.classList.add('wrapper');
     const searchForm = document.createElement('form');
@@ -34,7 +35,13 @@ export default function createMainContent() {
     })
     const clearInputBtn = document.createElement('button');
     clearInputBtn.classList.add('search-form__clear-input');
-    searchFormWrapper.append(inputRow, searchButton, keyboardButton, clearInputBtn);
+    const spinner = document.createElement('div');
+    for (let i = 0; i< 3; i +=1) {
+        const div = document.createElement('div');
+        spinner.append(div);
+    }
+    spinner.classList.add('spinner');
+    searchFormWrapper.append(inputRow, searchButton, keyboardButton, clearInputBtn, spinner);
     searchForm.append(searchFormWrapper);
 
     

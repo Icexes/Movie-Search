@@ -20,7 +20,7 @@ const getRate = (imdbID, keyValue) => {
 
     return fetch(url)
     .then(res => res.json())
-    .then(data => {console.log(data.imdbRating); return data.imdbRating});
+    .then(data => data.imdbRating);
     
 }
 const getTranslateWord = (word) => {
@@ -76,7 +76,7 @@ const swiper = new Swiper ('.swiper-container', {
       el: '.swiper-scrollbar',
     },
   })
-  console.log(swiper);
+
 
 
   const createMovieCard = (title, year, imgSrc, rate, id) => {
@@ -107,6 +107,8 @@ const swiper = new Swiper ('.swiper-container', {
 }
 
   const getMovies = () => {
+    const spinner = document.querySelector('.spinner');
+    spinner.classList.add('spinner--show');
     getTranslateWord(request)
     .then(translate => {
         getMovieTitle(currentPage, key, translate)
@@ -122,6 +124,10 @@ const swiper = new Swiper ('.swiper-container', {
                 .then(rate =>{
                 createMovieCard(film.Title, film.Year, film.Poster, rate, film.imdbID)});
             })
+        },
+        ).catch((err) => alert(err))
+        .finally(() => {
+            spinner.classList.remove('spinner--show');
         })
     })
 
