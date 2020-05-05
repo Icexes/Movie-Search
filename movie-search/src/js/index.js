@@ -8,6 +8,7 @@ import createMainContent from './MainContent/mainContent'
     // const key = 'bfcf5d6';
     const key2 = 'e4642a3b'
     let currentPage = 1;
+    let previousStateCurrentPage = currentPage;
     let request = 'home';
     let prevRequest = request;
     const getMovieTitle = (page, keyValue, requestData) => {
@@ -89,8 +90,6 @@ const swiper = new Swiper ('.swiper-container', {
 
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
-    const logWindow = document.querySelector('.log-window');
-    logWindow.textContent = `Show results `;
     const card = document.createElement('a');
     card.classList.add('card-film');
     card.href = `https://www.imdb.com/title/${id}/videogallery/`;
@@ -120,7 +119,8 @@ const swiper = new Swiper ('.swiper-container', {
     spinner.classList.add('spinner--show');
     getTranslateWord(request)
     .then(translate => {
-        getMovieTitle(currentPage, key2, translate)
+        console.log(translate);
+      return  getMovieTitle(currentPage, key2, translate)})
         .then(data => {
             if (data.Response === 'True') {
                 console.log('yes wse zaebis');
@@ -134,7 +134,7 @@ const swiper = new Swiper ('.swiper-container', {
         })
         .then(filmInfo => {
 
-            filmInfo.forEach(film => {
+            filmInfo.forEach( async film => {
                 getRate(film.imdbID,key2)
                 .then(rate =>{         
                 const cards = [];     
@@ -153,6 +153,7 @@ const swiper = new Swiper ('.swiper-container', {
             })
         },
         ).catch((err) => { 
+           currentPage = previousStateCurrentPage;
            const logWindow = document.querySelector('.log-window');
            if (err instanceof NotFoundDataError) logWindow.textContent = `${err.message.slice(0,-1)} for '${request}'`;
            
@@ -163,15 +164,18 @@ const swiper = new Swiper ('.swiper-container', {
         .finally(() => {
             spinner.classList.remove('spinner--show');
         })
-    })
 
 }
 
 getMovies();
-swiper.on('reachEnd', () => {
-    if (document.querySelector(".swiper-slide") === null) return;
+swiper.on('slideChange', () => {
+    console.log(swiper.activeIndex);
+    console.log('Сработал слайдер')
+    // if (document.querySelector(".swiper-slide") === null) return;
+    if (swiper.activeIndex % 6 === 0) {
     currentPage += 1;
-    getMovies();
+     getMovies();
+    }
 });
 
 const textInput = document.querySelector('.search-form__input-row');
@@ -179,7 +183,8 @@ const searchFormSubmitBtn = document.querySelector('.search-form__submit');
 searchFormSubmitBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     if (textInput.value === '') return;
-
+    previousStateCurrentPage = currentPage;
+    currentPage = 1;
     prevRequest = request;
     request = textInput.value;
     getMovies();
