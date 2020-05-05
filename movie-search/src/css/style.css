@@ -27,7 +27,7 @@ a {
 }
 
 .header {
-  background-color: rgb(105, 89, 201);
+  /* background-color: rgb(105, 89, 201); */
 }
 .header__wrap {
   padding-top: 30px;
@@ -37,12 +37,14 @@ a {
 
 .swiper-container {
   width: 90%;
-  height: 500px;
+  height: 550px;
 }
 
 .card {
   display: block;
 }
+
+
 
 .search-form {
   margin-bottom: 30px;
@@ -99,7 +101,11 @@ a {
   background-repeat: no-repeat;
   background-size: 35px 35px;
 }
-
+.search-form__submit:hover,
+.search-form__keyboard-btn:hover,
+.search-form__clear-input:hover {
+  cursor: pointer;
+}
 .search-form__clear-input {
   text-decoration: none;
   outline: none;
@@ -144,11 +150,61 @@ a {
   transform: translateY(0);
 }
 
+.card-film {
+  max-width: 250px;
+  display: block;
+}
+.card-film__name {
+  margin-top: 10px;
+  font-size: 19px;
+  color: #fff;
+  font-weight: 400;
+  height: 47px;
+  /* text-overflow: ellipsis;
+  white-space: nowrap; /* Запрещаем перенос строк */
+ /* overflow: hidden; Обрезаем все, что не помещается в область */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+ -webkit-box-orient: vertical;
+ overflow: hidden;
+
+}
+
 .card-film__poster {
   object-fit: cover;
   height: 400px;
   width: 250px;
 }
+
+.card-film__info {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-around;
+ 
+}
+
+.card-film__year, .card-film__rate {
+  font-size: 17px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.card-film__rate {
+  position: relative;
+}
+.card-film__rate::before {
+  content: '';
+  display: inline-block;
+  background-image: url('/../img/star.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: -30px;
+}
+
+
 
 .swiper {
   position: relative;
@@ -219,4 +275,10 @@ a {
 
 .spinner--show {
   visibility: visible;
+}
+
+.log-window {
+  height: 20px;
+  margin: 20px 0;
+  text-align: center;
 }
