@@ -12,8 +12,8 @@
 body {
   font-family: "Roboto", sans-serif;
   user-select: none;
-  background-image: url("/../img/lowpoly.png");
-  background-size: 100%;
+  background: url("/../img/lowpoly.png") no-repeat center center fixed;
+  background-size: cover;
 }
 
 a {
@@ -36,8 +36,10 @@ a {
 }
 
 .swiper-container {
-  width: 90%;
-  height: 550px;
+  padding-left:20px;
+  padding-top:20px;
+  width: calc(100% - 2 * 25px);
+  height: 580px;
 }
 
 .card {
@@ -53,35 +55,45 @@ a {
 .search-form__wrapper {
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .search-form__input-row {
-  width: calc(100% - 150px);
+  width: 550px;
   border: none;
   padding: 10px 70px;
   padding-top: 10px;
+  padding-left: 40px;
   background-image: url("/../img/search.svg");
   background-repeat: no-repeat;
   background-size: 25px;
-  background-position: 5px 5px;
-  border-radius: 10px;
+  background-position: 6px 7px;
+  border-radius: 8px;
+  border: 2px solid rgb(209, 118, 221);
   font-size: 15px;
   outline:none;
-  
+  margin-right: 20px;
+  background-color: rgba(253, 250, 250, .2);
+  color: #fff;
+}
+
+.search-form__input-row::placeholder {
+  color: #fff;
 }
 
 .search-form__submit {
   text-decoration: none;
   outline: none;
   display: inline-block;
-  padding: 10px 30px;
+  padding: 9px 30px;
+  font-size: 18px;
   position: relative;
   overflow: hidden;
-  border: 2px solid #fe6637;
+  border: 2px solid rgb(209, 118, 221);
   border-radius: 8px;
-  color: #fe6637;
+  color: rgb(255, 255, 255);
   transition: .2s ease-in-out;
+  background-color: rgba(253, 250, 250, .2);
   
 }
 
@@ -91,30 +103,32 @@ a {
   display: inline-block;
   padding: 20px 30px;
   position: absolute;
-  right: 135px;
+  right: calc(50%- 220px);
+  
   overflow: hidden;
   border:none;
   border-radius: 8px;
   transition: .2s ease-in-out;
   background-color:transparent;
-  background-image: url("/../img/keyboard.png");
+  background-image: url("/../img/keyboard.svg");
   background-repeat: no-repeat;
-  background-size: 35px 35px;
+  background-size: 38px 38px;
 }
+
 .search-form__submit:hover,
 .search-form__keyboard-btn:hover,
 .search-form__clear-input:hover {
   cursor: pointer;
 }
+
 .search-form__clear-input {
   text-decoration: none;
   outline: none;
   display: inline-block;
   padding: 10px 10px;
-
   position: absolute;
-  top:10px;
-  right: 200px;
+  top:13px;
+  right: calc(50%- 152px);
   overflow: hidden;
   border:none;
   border-radius: 8px;
@@ -136,24 +150,32 @@ a {
   left: -75px;
   transform: skewX(-45deg);
 }
+
 .search-form__submit:hover {
-  background: #fe6637;
+  background: rgb(209, 118, 221);
   color: #fff;
 }
+
 .search-form__submit:hover:before {
   left: 150px;
   transition: .5s ease-in-out;
 }
-
 
 .keyboard--show {
   transform: translateY(0);
 }
 
 .card-film {
+
   max-width: 250px;
   display: block;
+  transition: box-shadow .3s;
 }
+
+.card-film:hover {
+  box-shadow: 5px 5px 15px 0 rgba(2, 255, 116, 0.9), -5px 5px 15px 0 rgba(2, 255, 116, 0.9), -5px -5px 15px 0 rgba(2, 255, 116, 0.9), 5px -5px 15px 0 rgba(2, 255, 116, 0.9);
+}
+
 .card-film__name {
   margin-top: 10px;
   font-size: 19px;
@@ -173,7 +195,7 @@ a {
 .card-film__poster {
   object-fit: cover;
   height: 400px;
-  width: 250px;
+  width: 100%;
 }
 
 .card-film__info {
@@ -204,16 +226,39 @@ a {
   left: -30px;
 }
 
-
-
 .swiper {
   position: relative;
 }
 .swiper-wrapper {
-  width: 90%;
+  /* width: 90%; */
+}
+.swiper-slide a {
+  margin: 0 auto;
 }
 
-.header__logo::before {
+.swiper-button-next,
+.swiper-button-prev {
+  top: calc(50% - 50px);
+  color: rgb(209, 118, 221);
+}
+.swiper-button-prev {
+left: 0px;
+}
+.swiper-button-next {
+  right: 10px;
+}
+
+.swiper-scrollbar-drag { 
+  background-color: rgb(209, 118, 221);
+}
+
+
+.header__logo {
+  color: #fff;
+  font-size: 38px;
+}
+
+/* .header__logo::before {
   content: "";
   background-size: cover;
   background-repeat: no-repeat;
@@ -223,8 +268,9 @@ a {
   display: inline-block;
   vertical-align: middle;
   margin-right: 10px;
- 
-}
+} */
+
+
 .main {
   margin-top: 50px;
 }
