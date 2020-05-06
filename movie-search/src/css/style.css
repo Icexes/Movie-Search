@@ -20,6 +20,11 @@ a {
   text-decoration: none;
 }
 
+ 
+div:active, 
+div:focus {
+    outline: none;
+}
 .wrapper {
   margin: 0 auto;
   width: 80%;
