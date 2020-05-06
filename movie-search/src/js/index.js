@@ -8,6 +8,7 @@ import createMainContent from './MainContent/mainContent'
     // const key = 'bfcf5d6';
     const key2 = 'e4642a3b'
     let currentPage = 1;
+    let totalPages = 0;
     let previousStateCurrentPage = currentPage;
     let request = 'home';
     let prevRequest = request;
@@ -37,6 +38,9 @@ const getTranslateWord = (word) => {
 
 createHeader();
 createMainContent();
+const textInput = document.querySelector('.search-form__input-row');
+const logWindow = document.querySelector('.log-window');
+const searchFormSubmitBtn = document.querySelector('.search-form__submit');
 const swiper = new Swiper ('.swiper-container', {
     // Optional parameters
     // slidesPerView: 4,
@@ -87,9 +91,11 @@ const swiper = new Swiper ('.swiper-container', {
 
   }
 
+ 
 
   const createMovieCard = (title, year, imgSrc, rate, id) => {
-
+    
+    const cardImageSrc = imgSrc;
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
     const card = document.createElement('a');
@@ -97,7 +103,8 @@ const swiper = new Swiper ('.swiper-container', {
     card.href = `https://www.imdb.com/title/${id}/videogallery/`;
     const poster = document.createElement('img');
     poster.classList.add('card-film__poster');
-    poster.src = imgSrc === 'N/A' ? 'img/not-found.jpg' : imgSrc;
+    poster.src = cardImageSrc === 'N/A' ? 'img/not-found.jpg' : cardImageSrc;
+    poster.onerror = () => {poster.src = 'img/not-found.jpg'};
     const filmName = document.createElement('p');
     filmName.classList.add('card-film__name');
     filmName.textContent = title;
@@ -112,7 +119,6 @@ const swiper = new Swiper ('.swiper-container', {
     filmInfo.append(filmYear, filmRate);
     card.append(poster, filmName, filmInfo);
     slide.append(card);
-    // swiper.appendSlide(slide);
     return slide;
 }
 
@@ -128,7 +134,8 @@ const swiper = new Swiper ('.swiper-container', {
                 console.log('yes wse zaebis');
            const searchResult = data.Search;
 
-        //    const totalResults = data.totalResult;
+           totalPages = Math.round(data.totalResults/10);
+           console.log(totalPages);
         //    console.log(totalResults);
            return searchResult;
         }
@@ -136,12 +143,6 @@ const swiper = new Swiper ('.swiper-container', {
         })
         .then(filmInfo => {
 
-            // filmInfo.forEach(film => {
-            //     getRate(film.imdbID,key2)
-            //     .then(rate =>{         
-            //     const cards = [];     
-            //     cards.push(createMovieCard(film.Title, film.Year, film.Poster, rate, film.imdbID))
-            //     return cards;
             const rates = filmInfo.map(film => getRate(film.imdbID, key2));
             return Promise.all(rates).then(ratesArr => {
                 return  {ratesArr,filmInfo};
@@ -150,19 +151,15 @@ const swiper = new Swiper ('.swiper-container', {
             .then (cardsData => {
                 const cards = [];
                 cardsData.filmInfo.forEach((film, index) => cards.push(createMovieCard(film.Title, film.Year, film.Poster, cardsData.ratesArr[index], film.imdbID)))
-                // if (prevRequest !== request){
-                //     swiper.removeAllSlides();
-                //     swiper.update();
-                // }
                 if (currentPage === 1 && cardsData.filmInfo.length !== 0) {swiper.removeAllSlides(); swiper.update()}
                    swiper.appendSlide(cards);
                    swiper.update();
-                    
+                
                   
             }).catch((err) => { 
            currentPage = previousStateCurrentPage;
-           const logWindow = document.querySelector('.log-window');
            if (err instanceof NotFoundDataError) logWindow.textContent = `${err.message.slice(0,-1)} for '${request}'`;
+           else logWindow.textContent = err.message;
            
            
            request = prevRequest;
@@ -170,6 +167,7 @@ const swiper = new Swiper ('.swiper-container', {
         })
         .finally(() => {
             spinner.classList.remove('spinner--show');
+            textInput.value = '';
         })
 
 }
@@ -178,12 +176,12 @@ getMovies();
 swiper.on('reachEnd', () => {
      if (document.querySelector(".swiper-slide") === null) return;
     currentPage += 1;
-     getMovies();
+     if (currentPage <= totalPages) getMovies();
+      
     
 });
 
-const textInput = document.querySelector('.search-form__input-row');
-const searchFormSubmitBtn = document.querySelector('.search-form__submit');
+
 searchFormSubmitBtn.addEventListener('click', (evt) => {
     evt.preventDefault();
     if (textInput.value === '') return;
@@ -191,6 +189,7 @@ searchFormSubmitBtn.addEventListener('click', (evt) => {
     currentPage = 1;
     prevRequest = request;
     request = textInput.value;
+    logWindow.textContent = /[а-яА-Я]+/g.test(request) ? `Results for '${request}'` : '';
     getMovies();
 });
 
@@ -200,3 +199,5 @@ clearInputBtn.addEventListener('click', (evt) => {
     textInput.value = '';
 
 })
+
+// setTimeout(() => window.location.reload(true), 500) 
