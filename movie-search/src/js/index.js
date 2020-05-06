@@ -39,22 +39,24 @@ createHeader();
 createMainContent();
 const swiper = new Swiper ('.swiper-container', {
     // Optional parameters
-    slidesPerView: 4,
-    spaceBetween: 20,
+    // slidesPerView: 4,
+    centerInsufficientSlides: true,
+   
+  //  spaceBetween: 20,
     breakpoints: {
-        50: {
+        320: {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 30,
         },
-        640: {
+        700: {
             slidesPerView: 2,
-            spaceBetween: 20,
+            spaceBetween: 30,
         },
         1100: {
             slidesPerView: 3,
             spaceBetween: 20,
         },
-        1300 : {
+        1350 : {
             slidesPerView: 4,
             spaceBetween: 20,
         }
@@ -134,25 +136,30 @@ const swiper = new Swiper ('.swiper-container', {
         })
         .then(filmInfo => {
 
-            filmInfo.forEach( async film => {
-                getRate(film.imdbID,key2)
-                .then(rate =>{         
-                const cards = [];     
-                cards.push(createMovieCard(film.Title, film.Year, film.Poster, rate, film.imdbID))
-                return cards;
+            // filmInfo.forEach(film => {
+            //     getRate(film.imdbID,key2)
+            //     .then(rate =>{         
+            //     const cards = [];     
+            //     cards.push(createMovieCard(film.Title, film.Year, film.Poster, rate, film.imdbID))
+            //     return cards;
+            const rates = filmInfo.map(film => getRate(film.imdbID, key2));
+            return Promise.all(rates).then(ratesArr => {
+                return  {ratesArr,filmInfo};
+            });
             })
             .then (cardsData => {
+                const cards = [];
+                cardsData.filmInfo.forEach((film, index) => cards.push(createMovieCard(film.Title, film.Year, film.Poster, cardsData.ratesArr[index], film.imdbID)))
                 // if (prevRequest !== request){
                 //     swiper.removeAllSlides();
                 //     swiper.update();
                 // }
-                    swiper.appendSlide(cardsData);
+                if (currentPage === 1 && cardsData.filmInfo.length !== 0) {swiper.removeAllSlides(); swiper.update()}
+                   swiper.appendSlide(cards);
+                   swiper.update();
                     
                   
-            });
-            })
-        },
-        ).catch((err) => { 
+            }).catch((err) => { 
            currentPage = previousStateCurrentPage;
            const logWindow = document.querySelector('.log-window');
            if (err instanceof NotFoundDataError) logWindow.textContent = `${err.message.slice(0,-1)} for '${request}'`;
@@ -168,14 +175,11 @@ const swiper = new Swiper ('.swiper-container', {
 }
 
 getMovies();
-swiper.on('slideChange', () => {
-    console.log(swiper.activeIndex);
-    console.log('Сработал слайдер')
-    // if (document.querySelector(".swiper-slide") === null) return;
-    if (swiper.activeIndex % 6 === 0) {
+swiper.on('reachEnd', () => {
+     if (document.querySelector(".swiper-slide") === null) return;
     currentPage += 1;
      getMovies();
-    }
+    
 });
 
 const textInput = document.querySelector('.search-form__input-row');
