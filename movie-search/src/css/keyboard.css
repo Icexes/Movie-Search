@@ -27,7 +27,7 @@
     margin-left: -350px;
     transition: .5s;
     z-index: 10;
-    transform: translateY(-200%);
+    transform: translateY(-230%);
 }
 
 .keyboard__key {
@@ -48,12 +48,12 @@
 }
 
 .key-special {
-    width: 82px;
+    width: 86px;
     font-size: 15px;
 }
 
 .space {
-    min-width:300px;
+    min-width:316px;
 }
 
 .key__switch {
