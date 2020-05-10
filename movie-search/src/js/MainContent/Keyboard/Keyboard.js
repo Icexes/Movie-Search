@@ -4,7 +4,8 @@ export default function createKeyboard() {
     'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
     'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
     'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
-    'ControlLeft', 'Switch', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'];
+    'ControlLeft', 'Switch', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'
+  ];
   const engKeys = [
     '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
     'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del',
@@ -26,7 +27,7 @@ export default function createKeyboard() {
     'Shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', '↑', 'Shift',
     'Ctrl', 'Switch', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl',
   ];
-  
+
   const engShiftCapsKeys = [
     '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', 'Backspace',
     'Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '{', '}', '|', 'Del',
@@ -34,7 +35,7 @@ export default function createKeyboard() {
     'Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', '?', '↑', 'Shift',
     'Ctrl', 'Switch', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl',
   ];
-  
+
   const ruKeys = [
     'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
     'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
@@ -56,7 +57,7 @@ export default function createKeyboard() {
     'Shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', '↑', 'Shift',
     'Ctrl', 'Switch', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl',
   ];
-  
+
   const ruShiftCapsKeys = [
     'ё', '!', '"', '№', ';', '%', ':', '?', '*', '(', ')', '_', '+', 'Backspace',
     'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '/', 'Del',
@@ -64,32 +65,32 @@ export default function createKeyboard() {
     'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', ',', '↑', 'Shift',
     'Ctrl', 'Switch', 'Alt', ' ', 'Alt', '←', '↓', '→', 'Ctrl',
   ];
-  
+
   const longKeys = [
     'Backspace', 'Enter', 'Caps Lock', 'Shift',
   ];
   const specialKeys = [
     'Tab', 'Backspace', 'Enter', 'Caps Lock', 'Shift', 'Alt', 'Ctrl', 'Caps Lock', 'Del', 'Switch', 'Shift', '←', '↓', '↑', '→',
   ];
-  
+
   const specialKeysCodes = [
-    'Tab', 'Backspace', 'Enter', 'Caps Lock', 'Shift', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight', 'CapsLock', 'Delete', 'Switch', 'MetaRight', 'ShiftLeft', 'ShiftRight',
+    'Tab', 'Backspace', 'Enter', 'Caps Lock', 'Shift', 'AltLeft', 'AltRight', 'ControlLeft', 'ControlRight', 'CapsLock', 'Delete', 'Switch', 'MetaRight', 'ShiftLeft', 'ShiftRight', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
   ];
-  
+
   let lang = localStorage.getItem('lang') ? localStorage.getItem('lang') : 'eng';
   let isShiftPressed = false;
   let isShiftClickedByMouse = false;
   let isCapsLockPressed = false;
-  
+  const click = new Event('click', {"bubbles":true, "cancelable":false});
   const changeLangState = (language) => localStorage.setItem('lang', language);
-  
+
   const createDOM = () => {
     const wrapper = document.querySelector('.search-form');
     const keyboard = document.createElement('div');
     keyboard.classList.add('keyboard');
     wrapper.append(keyboard);
   };
-  
+
   const addKeys = (keys) => {
     const keyboard = document.querySelector('.keyboard');
     keys.forEach((keyValue, index) => {
@@ -102,11 +103,11 @@ export default function createKeyboard() {
       if (keyValue === 'Switch') key.classList.add('key__switch');
       if (keyValue === 'Switch') key.append('');
       else key.append(keyValue);
-      
+
       keyboard.append(key);
     });
   };
-  
+
   const changeKeys = (keyValues) => {
     const keyboard = document.querySelector('.keyboard');
     const keys = keyboard.querySelectorAll('.keyboard__key');
@@ -118,7 +119,7 @@ export default function createKeyboard() {
       }
     }
   };
-  
+
   const eventHandler = (event, type) => {
     const keyboard = document.querySelector('.keyboard');
     const inputField = document.querySelector('.search-form__input-row');
@@ -126,10 +127,16 @@ export default function createKeyboard() {
     event.preventDefault();
     switch (type) {
       case 'mousedown':
-        if (event.target.classList.contains('keyboard__key')) { eventCode = event.target.getAttribute('code'); } else return;
+        if (event.target.classList.contains('keyboard__key')) {
+          eventCode = event.target.getAttribute('code');
+        } else return;
         break;
       case 'mouseup':
-        if (isShiftClickedByMouse) { eventCode = 'ShiftLeft'; } else if (event.target.classList.contains('keyboard__key')) { eventCode = event.target.getAttribute('code'); } else return;
+        if (isShiftClickedByMouse) {
+          eventCode = 'ShiftLeft';
+        } else if (event.target.classList.contains('keyboard__key')) {
+          eventCode = event.target.getAttribute('code');
+        } else return;
         break;
       case 'keydown':
       case 'keyup':
@@ -141,7 +148,9 @@ export default function createKeyboard() {
     inputField.focus();
     if (type === 'keydown' || type === 'mousedown') {
       const currentKey = keyboard.querySelector(`div[code=${eventCode}]`);
-      if (type === 'keydown') { currentKey.classList.add('keyboard__key--active'); }
+      if (type === 'keydown') {
+        currentKey.classList.add('keyboard__key--active');
+      }
       if (!specialKeysCodes.includes(eventCode)) {
         inputField.setRangeText(currentKey.textContent, inputField.selectionStart, inputField.selectionEnd, 'end');
       }
@@ -149,12 +158,20 @@ export default function createKeyboard() {
         isShiftClickedByMouse = true;
       }
       switch (eventCode) {
+        case 'ArrowLeft':
+          if (inputField.selectionStart === 1) break;
+          inputField.selectionStart -= 1;
+          inputField.selectionEnd -= 1;
+          break;
+        case 'ArrowRight':
+          inputField.selectionStart += 1;
+          break;
         case 'CapsLock':
           if (event.repeat) return;
           isCapsLockPressed = !isCapsLockPressed;
           if (isCapsLockPressed) {
             keyboard.querySelector("div[code='CapsLock']").classList.add('keyboard__key--active');
-  
+
             if (isShiftPressed) {
               changeKeys(lang === 'eng' ? engShiftCapsKeys : ruShiftCapsKeys);
             } else {
@@ -178,37 +195,41 @@ export default function createKeyboard() {
             }
           }
           break;
-  
+
         case 'Backspace':
-          if (inputField.selectionStart - 1 >= 0) { inputField.setRangeText('', inputField.selectionStart - 1, inputField.selectionEnd, 'end'); }
+          if (inputField.selectionStart - 1 >= 0) {
+            inputField.setRangeText('', inputField.selectionStart - 1, inputField.selectionEnd, 'end');
+          }
           break;
         case 'Delete':
-          if (inputField.selectionEnd + 1 <= inputField.value.length) { inputField.setRangeText('', inputField.selectionStart, inputField.selectionEnd + 1, 'end'); }
+          if (inputField.selectionEnd + 1 <= inputField.value.length) {
+            inputField.setRangeText('', inputField.selectionStart, inputField.selectionEnd + 1, 'end');
+          }
           break;
         case 'Enter':
-          inputField.setRangeText('\n', inputField.selectionStart, inputField.selectionEnd, 'end');
+          document.querySelector('.search-form__submit').dispatchEvent(click);
           break;
         case 'Tab':
           inputField.setRangeText('\t', inputField.selectionStart, inputField.selectionEnd, 'end');
           break;
         case 'Switch':
-            lang = lang === 'eng' ? 'ru' : 'eng';
-            changeLangState(lang);
-            if (isCapsLockPressed) {
-              if (isShiftPressed) {
-                changeKeys(lang === 'eng' ? engShiftCapsKeys : ruShiftCapsKeys);
-              } else {
-                changeKeys(lang === 'eng' ? engCapsKeys : ruCapsKeys);
-              }
-            } else if (isShiftPressed) {
-              changeKeys(lang === 'eng' ? engShiftKeys : ruShiftKeys);
+          lang = lang === 'eng' ? 'ru' : 'eng';
+          changeLangState(lang);
+          if (isCapsLockPressed) {
+            if (isShiftPressed) {
+              changeKeys(lang === 'eng' ? engShiftCapsKeys : ruShiftCapsKeys);
             } else {
-              changeKeys(lang === 'eng' ? engKeys : ruKeys);
+              changeKeys(lang === 'eng' ? engCapsKeys : ruCapsKeys);
             }
-            break;
+          } else if (isShiftPressed) {
+            changeKeys(lang === 'eng' ? engShiftKeys : ruShiftKeys);
+          } else {
+            changeKeys(lang === 'eng' ? engKeys : ruKeys);
+          }
+          break;
         default:
       }
-  
+
       if ((event.ctrlKey && event.altKey) || (event.ctrlKey && currentKey.textContent === 'Alt') || (event.altKey && currentKey.textContent === 'Ctrl')) {
         lang = lang === 'eng' ? 'ru' : 'eng';
         changeLangState(lang);
@@ -249,18 +270,18 @@ export default function createKeyboard() {
       }
     }
   };
-  
+
   const addListeners = () => {
     const keyboard = document.querySelector('.keyboard');
     keyboard.addEventListener('mousedown', (event) => {
       eventHandler(event, 'mousedown');
     });
-  
+
     document.addEventListener('mouseup', (event) => {
       eventHandler(event, 'mouseup');
     });
   };
-  
+
   createDOM();
   addKeys(lang === 'eng' ? engKeys : ruKeys);
   addListeners();
