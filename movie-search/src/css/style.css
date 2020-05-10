@@ -254,7 +254,7 @@ div:focus {
   color: rgb(209, 118, 221);
 }
 .swiper-button-prev {
-left: 0px;
+left: -10px;
 }
 .swiper-button-next {
   right: -10px;
